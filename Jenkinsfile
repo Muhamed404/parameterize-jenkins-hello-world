@@ -7,9 +7,9 @@ pipeline {
     }
 
     stages {
-        stage('Echo Version') {
+        stage('Maven Version') {
             steps {
-                sh 'echo Print mn Version'
+                sh 'echo Print Mavnen Version'
                 sh 'mvn -version'
             }
         }
@@ -24,6 +24,17 @@ pipeline {
                 sh 'mvn test'
             }
             
+        }
+        stage('Local Deployment') {
+            steps {
+                sh """ java -jar target/hello-demo-*.jar > /dev/null & """
+            }
+        }
+        stage('Integration Testing'){
+            steps{
+                sh 'sleep 5s'
+                sh 'curl -s http://localhost:6767/hello'
+            }
         }
 
     }
