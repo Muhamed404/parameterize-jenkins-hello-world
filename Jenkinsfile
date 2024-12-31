@@ -7,24 +7,39 @@ pipeline {
     }
 
     stages {
-        stage('Echo Version') {
-            steps {
-                sh 'echo Print mn Version'
-                sh 'mvn -version'
-            }
-        }
         stage('Build') {
             steps {
-                git branch: 'main', url: 'https://github.com/Muhamed404/jenkins-hello-world.git'
                 sh 'mvn clean package -DskipTests=true'
+                archiveArtifacts 'target/hello-demo-*.jar'
             }
         }
         stage('Unit Test') {
             steps {
                 sh 'mvn test'
+                 junit(testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true)
             }
             
         }
+        stage('Containerization') {
+            steps{
+                sh 'echo Docker Build Image.......... '
+                sh 'echo Docker Tag Image............'
+                sh 'echo Docker push Image...........'
+            }
+        }
+
+        stage('Kubernetes Deployment') {
+            steps{
+                sh 'echo Deploy to kubernetes Using ArgoCD'
+            }
+            
+        stage('Integration Testing'){
+            steps{
+                sh 'sleep 5s'
+                sh 'curl -s http://localhost:6767/hello'
+            }
+        }
+        
 
     }
 }
