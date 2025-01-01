@@ -33,14 +33,13 @@ pipeline {
             steps{
                 sh 'echo Deploy to kubernetes Using ArgoCD'
             }
-            
+        } 
         stage('Integration Testing'){
             steps{
                 sh "sleep 5s"
-                sh "curl -s http://localhost:6767/hello"
+                sh "curl -s http://localhost:6767/hello" 
             }
         }
         
-
     }
 }
