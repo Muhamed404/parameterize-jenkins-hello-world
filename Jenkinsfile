@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh 'echo Print Mavnen Version'
                 sh 'mvn -version'
-                sh "echo Sleep-Time - ${params.SLEEP_TIME}, Port - ${params.AAPP_PORT}, Branch ${params.BRANCH_NAME}"
+                sh "echo Sleep-Time - ${params.SLEEP_TIME}, Port - ${params.APP_PORT}, Branch ${params.BRANCH_NAME}"
             }
         }
         stage('Build') {
@@ -35,7 +35,7 @@ pipeline {
         stage('Integration Testing'){
             steps{
                 sh "sleep ${params.SLEEP_TIME}"
-                sh "curl -s http://localhost:${params.AAPP_PORT}/hello"
+                sh "curl -s http://localhost:${params.APP_PORT}/hello"
             }
         }
 
