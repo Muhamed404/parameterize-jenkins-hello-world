@@ -2,11 +2,18 @@ pipeline {
     agent any
 
     tools {
-        // Install the Maven version configured as "M3" and add it to the path.
+        // Install the Maven version configured as "M398" and add it to the path.
         maven "M398"
     }
 
     stages {
+        stage('Maven Version') {
+            steps{
+                sh 'echo Print Mavan Version'
+                sh 'mvn -version'
+                sh "echo Sleep-Time - ${params.SLEEP_TIME}, Port - ${params.AAPP_PORT}, Branch ${params.BRANCH_NAME}"
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests=true'
@@ -35,8 +42,8 @@ pipeline {
             
         stage('Integration Testing'){
             steps{
-                sh 'sleep 5s'
-                sh 'curl -s http://localhost:6767/hello'
+                sh "sleep ${params.SLEEP_TIME}"
+                sh "curl -s http://localhost:${params.AAPP_PORT}/hello"
             }
         }
         
